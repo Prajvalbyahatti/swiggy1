@@ -1,5 +1,4 @@
-name: Build
-
+name: Build and Deploy
 on:
   push:
     branches:
@@ -40,3 +39,17 @@ jobs:
           docker push 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
         env:
           DOCKER_CLI_ACI: 1
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Docker pull image
+        run: docker pull 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
+
+      - name: Image scan
+        run: trivy image 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest > trivyimagedeploy.txt
+
+      - name: Deploy to container
+        run: docker run -d --name swiggy-clone -p 3000:3000 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
