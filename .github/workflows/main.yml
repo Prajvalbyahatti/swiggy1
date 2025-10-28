@@ -49,7 +49,7 @@ jobs:
         run: docker pull 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
 
       - name: Image scan
-        run: trivy image 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest > trivyimagedeploy.txt
+        run: 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest > trivyimagedeploy.txt
 
       - name: Deploy to container
         run: docker run -d --name swiggy-clone -p 3000:3000 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
