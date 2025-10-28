@@ -35,7 +35,7 @@ jobs:
       - name: Docker build and push to ECR
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 254539707241.dkr.ecr.us-east-1.amazonaws.com
-          docker build -t my-ecr .
+          docker build -t my-ecr -f deployment-using-github-actions/Dockerfile deployment-using-github-actions/
           docker tag my-ecr:latest 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
           docker push 254539707241.dkr.ecr.us-east-1.amazonaws.com/my-ecr:latest
         env:
